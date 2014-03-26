@@ -6,11 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Mathaxxare {
+public class FoodDB {
 	
 	private Connection c;
 	
-	public Mathaxxare() {
+	public FoodDB() {
 		c = null;
 	}
 	
