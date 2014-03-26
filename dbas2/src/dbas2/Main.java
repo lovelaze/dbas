@@ -28,20 +28,50 @@ public class Main {
 		System.out.println("Opened database successfully");
 	}
 	
-	private void enterIngredient(String name, float quantity, String unit) throws SQLException {
+	private void addIngredient(String name, float quantity, String unit) throws SQLException {
 		Statement s = c.createStatement();
-		s.executeUpdate("INSERT INTO ingredients(name, quantity, unit) VALUES('"+name+"',"+quantity+",'"+unit+"')");
+		s.executeUpdate("INSERT INTO in_kitchen(name, quantity, unit) VALUES('"+name+"',"+quantity+",'"+unit+"')");
 	}
 	
-	private void enterIngredient(String name, String type, String description) throws SQLException {
+	private void addRecipe(String name, String type, String description) throws SQLException {
 		Statement s = c.createStatement();
 		s.executeUpdate("INSERT INTO recipe(name, type, description) VALUES('"+name+"','"+ type +"','"+ description +"')");
 	}
+	
+	private void listIngredients() throws SQLException {
+		Statement s = c.createStatement();
+		ResultSet r = s.executeQuery("SELECT * FROM in_kitchen");
+		
+		System.out.println("List of ingredients:");
+		while (r.next()) {
+			System.out.println(r.getString("name") + " - " + r.getFloat("quantity") + " - " +r.getString("unit"));
+		}
+	}
+	
+	private void listRecipes() throws SQLException {
+		Statement s = c.createStatement();
+		ResultSet r = s.executeQuery("SELECT * FROM recipe");
+		System.out.println("List of recipes:");
+		while(r.next()) {
+			System.out.println(r.getString("name"));
+			System.out.println("\t" + r.getString("type"));
+			System.out.println("\t" + r.getString("description"));
+		}
+	}
+	
+	
+	
+	
+	
+	
 
 	public static void main(String[] args) throws SQLException {
 		Main main = new Main();
 		main.connect("frebern", "frebern", "E4VkF794");
-		//main.enterIngredient("milk",3f, "L");
+		//main.addIngredient("mango", 2f, "pieces");
+		//main.addRecipe("Apple pie", "dessert", "Jockes delicous apple pie");
+		//main.listIngredients();
+		main.listRecipes();
 		
 	}
 
