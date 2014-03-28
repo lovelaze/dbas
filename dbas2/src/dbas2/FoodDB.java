@@ -56,8 +56,19 @@ public class FoodDB {
 				e.printStackTrace();
 			}
 		}
-		
 
+		return false;
+	}
+	
+	public boolean addToKitchen(String name) {
+		
+		try {
+			s.executeUpdate("INSERT INTO in_kitchen(name) VALUES('"+name+"')");
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		return false;
 	}
 	

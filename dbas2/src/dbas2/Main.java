@@ -79,6 +79,8 @@ public class Main {
 		//main.db.removeFromKitchen("green bell pepper");
 		//main.db.removeFromKitchen("kiwi");
 		//main.db.addIngredientToRecipe("banakaka", "water", 1, "L")
+		main.db.addToKitchen("soy sauce");
+		
 		
 		
 	}
