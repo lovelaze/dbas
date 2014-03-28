@@ -17,7 +17,11 @@ public class Main {
 		//main.addIngredient("mango", 2f, "pieces");
 		//main.addRecipe("Apple pie", "dessert", "Jockes delicous apple pie");
 		//main.listIngredients();
-		main.db.listRecipes();
+		//main.db.addToKitchen("green bell pepper", 5, "kg");
+		//main.db.removeFromKitchen("green bell pepper");
+		//main.db.removeFromKitchen("kiwi");
+		//main.db.addIngredientToRecipe("banakaka", "water", 1, "L")
+		
 		
 	}
 
