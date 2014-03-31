@@ -35,6 +35,36 @@ public class FoodDB {
 		System.out.println("Opened database successfully");
 	}
 	
+	
+	public boolean performRecipe(String recipe) {
+		
+		String query = "SELECT i_name, amount, unit from ingredients_used where r_name = '"+recipe+"'";
+		ResultSet r = null;
+		try {
+			Statement st = c.createStatement();
+			r = st.executeQuery(query);
+			while(r.next()) {
+				String name = r.getString("i_name");
+				float amount = r.getFloat("amount");
+				String unit = r.getString("unit");
+				System.out.println("removing " + amount + unit +" " + name);
+				if (unit == null) {
+					addToKitchen(name, -amount);
+				} else {
+					addToKitchen(name, amount, unit);
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		return false;
+	}
+	
 	public boolean getShoppingList(String[] recipes) throws SQLException {
 		
 		String q1 = "(SELECT name, (quantity - cost ) as buy, in_kitchen.unit FROM in_kitchen, "
@@ -65,7 +95,7 @@ public class FoodDB {
 			}
 		}
 		
-		return true;
+		return false;
 	}
 	
 	public boolean printPossibleRecipes(){

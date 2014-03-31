@@ -79,6 +79,15 @@ public class Main {
 				db.getShoppingList(lst.toArray(new String[lst.size()]));
 			}
 			
+			if (input.equals("perform")) {
+				System.out.println("enter recipe to perform:");
+				System.out.println(">");
+				String rec = scanner.nextLine();
+				db.performRecipe(rec);
+				
+			}
+			
+			
 			
 		}
 		scanner.close();
