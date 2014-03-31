@@ -1,0 +1,19 @@
+select recipe.name from ingredients_used, in_kitchen, recipe where r_name = recipe.name AND i_name = in_kitchen.name AND ((quantity - amount) >= 0 OR (quantity - amount) is null) group by recipe.name having count(*) = (select count(*) from ingredients_used where r_name = recipe.name) except select recipe.name from ingredients_used, in_kitchen, recipe where r_name = recipe.name AND i_name = in_kitchen.name AND ((quantity - amount) >= 0) group by recipe.name having count(*) = (select count(*) from ingredients_used where r_name = recipe.name);
+
+
+
+// shopping list
+SELECT name, (quantity - cost ) as buy, in_kitchen.unit FROM in_kitchen,
+	(select i_name, sum(amount) AS cost, unit from ingredients_used where r_name = 'mushroom quesadillas' group by i_name, unit) AS foo where i_name = name
+UNION
+SELECT i_name, -amount, unit from ingredients_used where r_name = 'mushroom quesadillas' and i_name NOT IN(select name from in_kitchen);
+
+
+update in_kitchen set quantity = 400 where name = 'long grain rice';
+update in_kitchen set quantity = 2 where name = 'tomato';
+update in_kitchen set quantity = 3 where name = 'onion';
+update in_kitchen set quantity = 7 where name = 'garlic';
+update in_kitchen set quantity = 3 where name = 'red chili pepper';
+update in_kitchen set quantity = 700 where name = 'broccoli';
+update in_kitchen set quantity = 400 where name = 'olive oil';
+update in_kitchen set quantity = 50 where name = 'basil';
