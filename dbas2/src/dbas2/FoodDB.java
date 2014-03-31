@@ -51,7 +51,7 @@ public class FoodDB {
 				if (unit == null) {
 					addToKitchen(name, -amount);
 				} else {
-					addToKitchen(name, amount, unit);
+					addToKitchen(name, -amount, unit);
 				}
 			}
 			
