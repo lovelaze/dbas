@@ -319,7 +319,19 @@ public class FoodDB {
 		
 		System.out.println("List of ingredients:");
 		while (r.next()) {
-			System.out.println(r.getString("name") + " - " + r.getFloat("quantity") + " - " +r.getString("unit"));
+			String name = r.getString("name");
+			float quantity = r.getFloat("quantity");
+			String unit = r.getString("unit");
+			
+			String full = name;
+			if (!(quantity==0.0)) {
+				full += " " + quantity;
+			}
+			if (unit != null) {
+				full += " " + unit;
+			}
+			
+			System.out.println(full);
 		}
 	}
 	
@@ -327,9 +339,7 @@ public class FoodDB {
 		ResultSet r = s.executeQuery("SELECT * FROM recipe");
 		System.out.println("List of recipes:");
 		while(r.next()) {
-			System.out.println(r.getString("name"));
-			System.out.println(r.getString("type"));
-			System.out.println(r.getString("description"));
+			System.out.println(r.getString("name") + " - " + r.getString("type"));
 		}
 	}
 

@@ -16,18 +16,22 @@ public class Main {
 	public void prompt() throws SQLException{
 		Scanner scanner = new Scanner(new InputStreamReader(System.in));
 		while (!exit){
-			System.out.print(">");
+			System.out.print("> ");
 			String input = scanner.nextLine();
 			
 			if(input.equals("exit")){
 				exit = true;
 			}
 			
-			if(input.equals("list") || input.equals("list food")){
+			if (input.equals("help")) {
+				System.out.println("list\nadd\nremove\npossible\ndefinitely\nshopping\nperform\nrecipes");
+			}
+			
+			if(input.equals("list")){
 				db.listIngredients();
 			}
 			
-			if(input.equals("add") || input.equals("add food")){
+			if(input.equals("add")){
 				System.out.print("Food name: ");
 				String name = scanner.nextLine();
 				System.out.print("Quantity: ");
@@ -45,7 +49,7 @@ public class Main {
 				}
 			}
 			
-			if(input.equals("remove") || input.equals("remove food") || input.equals("delete")){
+			if(input.equals("remove")){
 				System.out.print("Food name: ");
 				String name = scanner.nextLine();
 				System.out.print("Quantity: ");
@@ -53,20 +57,20 @@ public class Main {
 				db.addToKitchen(name, -quantity);
 			}
 			
-			if(input.equals("possible") || input.equals("possible recipes")){
+			if(input.equals("possible")){
 				db.printPossibleRecipes();
 			}
 			
-			if(input.equals("definitely") || input.equals("definitely recipes")){
+			if(input.equals("definitely")){
 				db.printDefinitelyRecipes();
 			}
 			
 			if (input.equals(("shopping"))) {
 				ArrayList<String> lst = new ArrayList<>();
-				System.out.println("enter recipes, exit with 'stop'");
+				System.out.println("Enter recipes, exit with 'stop'");
 				boolean next = true;
 				while (next) {
-					System.out.print(">");
+					System.out.print(": ");
 					String food = scanner.nextLine();
 					if (food.equals("stop")) {
 						next = false;
@@ -80,11 +84,15 @@ public class Main {
 			}
 			
 			if (input.equals("perform")) {
-				System.out.println("enter recipe to perform:");
-				System.out.println(">");
+				System.out.println("Enter recipe to perform");
+				System.out.println(": ");
 				String rec = scanner.nextLine();
 				db.performRecipe(rec);
 				
+			}
+			
+			if (input.equals("recipes")) {
+				db.listRecipes();
 			}
 			
 			
