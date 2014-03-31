@@ -73,8 +73,22 @@ public class FoodDB {
 		
 		try {
 			r = s.executeQuery("select recipe.name from ingredients_used, in_kitchen, recipe where r_name = recipe.name AND i_name = in_kitchen.name AND ((quantity - amount) >= 0 OR (quantity - amount) is null) group by recipe.name having count(*) = (select count(*) from ingredients_used where r_name = recipe.name) except select recipe.name from ingredients_used, in_kitchen, recipe where r_name = recipe.name AND i_name = in_kitchen.name AND ((quantity - amount) >= 0) group by recipe.name having count(*) = (select count(*) from ingredients_used where r_name = recipe.name);");
+			
+			
 			while (r.next()) {
-				System.out.println(r.getString("name"));
+				String name = r.getString("name");
+				System.out.println(name);
+				
+				String tempQ = "select name, amount, ingredients_used.unit from in_kitchen, ingredients_used where name = i_name AND r_name = '"+name+"' AND quantity is null";
+				ResultSet tempr = s.executeQuery(tempQ);
+				while (tempr.next()) {
+					String iname = tempr.getString("name");
+					float amount = tempr.getFloat("amount");
+					String unit = tempr.getString("unit"); 
+					System.out.println("\tMake sure you have at least " + amount+ unit + " " + iname);
+				}
+				
+				
 			}
 			return true;
 		} catch (SQLException e) {
