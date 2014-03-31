@@ -1,87 +1,100 @@
 package dbas2;
 
+import java.io.InputStreamReader;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 public class Main {
 	
 	private FoodDB db;
-	private Options options;
 	
-	private final boolean enableCLI = false;
-	
+	private boolean exit = false;
 	public Main() {
 		db = new FoodDB();
-		options = createOptions();
 	}
 	
-	@SuppressWarnings("static-access")
-	private Options createOptions() {
-		Options options = new Options();
-		
-		
-		Option recipes = OptionBuilder.withArgName("recipes")
-				.withDescription("List all recipes")
-				.create("r");
-		
-		Option ingredients = OptionBuilder.withArgName("ingredients")
-				.withDescription("List all ingredients")
-				.create("i");
-		
-		options.addOption(recipes);
-		options.addOption(ingredients);
-		
-		
-		
-		
-		return options;
-	}
-	
-	
+	public void prompt() throws SQLException{
+		Scanner scanner = new Scanner(new InputStreamReader(System.in));
+		while (!exit){
+			System.out.print(">");
+			String input = scanner.nextLine();
+			
+			if(input.equals("exit")){
+				exit = true;
+			}
+			
+			if(input.equals("list") || input.equals("list food")){
+				db.listIngredients();
+			}
+			
+			if(input.equals("add") || input.equals("add food")){
+				System.out.print("Food name: ");
+				String name = scanner.nextLine();
+				System.out.print("Quantity: ");
+				float quantity = scanner.nextFloat();
+				System.out.print("Unit: ");
+				String unit = scanner.nextLine();
+				if(quantity == 0f){
+					db.addToKitchen(name);
+				}
+				else if(unit.equals("")){
+					db.addToKitchen(name, quantity);
+				}
+				else {
+					db.addToKitchen(name, quantity, unit);
+				}
+			}
+			
+			if(input.equals("remove") || input.equals("remove food") || input.equals("delete")){
+				System.out.print("Food name: ");
+				String name = scanner.nextLine();
+				System.out.print("Quantity: ");
+				float quantity = scanner.nextFloat();
+				db.addToKitchen(name, -quantity);
+			}
+			
+			if(input.equals("possible") || input.equals("possible recipes")){
+				db.printPossibleRecipes();
+			}
+			
+			if(input.equals("definitely") || input.equals("definitely recipes")){
+				db.printDefinitelyRecipes();
+			}
+			
+			if (input.equals(("shopping"))) {
+				ArrayList<String> lst = new ArrayList<>();
+				System.out.println("enter recipes, exit with 'stop'");
+				
+				boolean run = true;
+				while (run) {
+					System.out.print(">");
+					String food = scanner.nextLine();
+					if (food.equals("stop")) {
+						run = false;
+					} else {
+						lst.add(food);
+					}
+					
+				}
 
-	public static void main(String[] args) throws SQLException {
-		
-		String testargs[] = {"-i"};
-		
-		Main main = new Main();
-		main.db.connect("frebern", "frebern", "E4VkF794");
-		
-		if (main.enableCLI) {
-			CommandLineParser parser = new GnuParser();
-			CommandLine cmd = null;
-			try {
-				cmd = parser.parse(main.options, testargs);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			
-			if (cmd.hasOption("r")) {
-				main.db.listRecipes();
-			}
-			
-			if (cmd.hasOption("i")) {
-				main.db.listIngredients();
+				db.getShoppingList(lst.toArray(new String[lst.size()]));
 			}
 			
 			
 		}
+		scanner.close();
+	}
 
-		//main.addIngredient("mango", 2f, "pieces");
-		//main.addRecipe("Apple pie", "dessert", "Jockes delicous apple pie");
-		//main.listIngredients();
-		//main.db.addToKitchen("green bell pepper", 5, "kg");
-		//main.db.removeFromKitchen("green bell pepper");
-		//main.db.removeFromKitchen("kiwi");
-		//main.db.addIngredientToRecipe("banakaka", "water", 1, "L")
-		main.db.addToKitchen("soy sauce");
+	public static void main(String[] args) throws SQLException {
 		
 		
+		Main main = new Main();
+		main.db.connect("frebern", "frebern", "E4VkF794");
+		main.prompt();
 		
 	}
 

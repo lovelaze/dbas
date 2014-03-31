@@ -1,0 +1,13 @@
+select recipe.name from ingredients_used, in_kitchen, recipe where r_name = recipe.name AND i_name = in_kitchen.name AND ((quantity - amount) >= 0) group by recipe.name having count(*) = (select count(*) from ingredients_used where r_name = recipe.name);
+
+select recipe.name from ingredients_used, in_kitchen, recipe where r_name = recipe.name AND i_name = in_kitchen.name AND ((quantity - amount) >= 0 OR (quantity - amount) is null) group by recipe.name having count(*) = (select count(*) from ingredients_used where r_name = recipe.name) 
+
+select recipe.name from ingredients_used, in_kitchen, recipe where r_name = recipe.name AND i_name = in_kitchen.name AND ((quantity - amount) >= 0 OR (quantity - amount) is null) group by recipe.name having count(*) = (select count(*) from ingredients_used where r_name = recipe.name) except select recipe.name from ingredients_used, in_kitchen, recipe where r_name = recipe.name AND i_name = in_kitchen.name AND ((quantity - amount) >= 0) group by recipe.name having count(*) = (select count(*) from ingredients_used where r_name = recipe.name);
+
+(select i_name, sum(amount) AS cost, unit from ingredients_used where (r_name = 'broccoli stir fry' OR r_name = 'mexican fried rice') group by i_name, unit);
+
+select i_name, quantity - x.cost AS buy, x.unit from in_kitchen, (select i_name, sum(amount) AS cost, unit from ingredients_used, recipe where r_name = name group by i_name, unit) AS x where i_name = name;
+
+(select i_name, sum(amount) AS cost, unit from ingredients_used, recipe where r_name = name group by i_name, unit) except (select name AS i_name, quantity AS cost, unit from in_kitchen);
+
+(select i_name from ingredients_used except select name from in_kitchen) AS x;
