@@ -37,32 +37,32 @@ public class FoodDB {
 	
 	public boolean getShoppingList(String[] recipes) throws SQLException {
 		
-		String qFirst = "select i_name, quantity - x.cost AS buy, in_kitchen.unit from in_kitchen," +
-				"(select i_name, sum(amount) AS cost, unit from ingredients_used where (";
-		String qSecond = ") group by i_name, unit) AS x where i_name = name;";
+		String q1 = "(SELECT name, (quantity - cost ) as buy, in_kitchen.unit FROM in_kitchen, "
+				+ "(select i_name, sum(amount) AS cost, unit from ingredients_used where ";
+		
+		String q2 = " group by i_name, unit) AS foo where i_name = name or quantity is"
+				+ " null or in_kitchen.unit is null) UNION (SELECT i_name, -amount, unit from ingredients_used where ";
+		
+		String q3 = " and i_name NOT IN(select name from in_kitchen))";
+		
 		
 		String temp = "";
-		
 		for (String s : recipes) {
 			temp += "r_name='"+s+"' OR ";
 		}
 		temp = temp.substring(0, temp.length()-4);
 		
-		String full = qFirst+temp+qSecond;
+		String full = q1+temp+q2+temp+q3;
 		
 		ResultSet r = s.executeQuery(full);
 		while (r.next()) {
-			String name = r.getString("i_name");
-			float quantity = r.getFloat("buy");
-			String unit = r.getString("unit");
+			String name = r.getString(1);
+			float quantity = r.getFloat(2);
+			String unit = r.getString(3);
 			
 			if (quantity < 0) {
 				System.out.println(name + "\t" + (-quantity) +"\t"+unit);
 			}
-			
-			
-			
-			
 		}
 		
 		return true;

@@ -4,10 +4,6 @@ import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
 public class Main {
 	
 	private FoodDB db;
@@ -68,13 +64,12 @@ public class Main {
 			if (input.equals(("shopping"))) {
 				ArrayList<String> lst = new ArrayList<>();
 				System.out.println("enter recipes, exit with 'stop'");
-				
-				boolean run = true;
-				while (run) {
+				boolean next = true;
+				while (next) {
 					System.out.print(">");
 					String food = scanner.nextLine();
 					if (food.equals("stop")) {
-						run = false;
+						next = false;
 					} else {
 						lst.add(food);
 					}
