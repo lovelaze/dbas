@@ -80,7 +80,8 @@ public class FoodDB {
 				System.out.println(name);
 				
 				String tempQ = "select name, amount, ingredients_used.unit from in_kitchen, ingredients_used where name = i_name AND r_name = '"+name+"' AND quantity is null";
-				ResultSet tempr = s.executeQuery(tempQ);
+				Statement st = c.createStatement();
+				ResultSet tempr = st.executeQuery(tempQ);
 				while (tempr.next()) {
 					String iname = tempr.getString("name");
 					float amount = tempr.getFloat("amount");
