@@ -38,12 +38,12 @@ public class FoodDB {
 	public boolean getShoppingList(String[] recipes) throws SQLException {
 		
 		String q1 = "(SELECT name, (quantity - cost ) as buy, in_kitchen.unit FROM in_kitchen, "
-				+ "(select i_name, sum(amount) AS cost, unit from ingredients_used where ";
+				+ "(select i_name, sum(amount) AS cost, unit from ingredients_used where( ";
 		
-		String q2 = " group by i_name, unit) AS foo where i_name = name or quantity is"
-				+ " null or in_kitchen.unit is null) UNION (SELECT i_name, -amount, unit from ingredients_used where ";
+		String q2 = " )group by i_name, unit) AS foo where i_name = name or quantity is"
+				+ " null or in_kitchen.unit is null) UNION (SELECT i_name, -amount, unit from ingredients_used where( ";
 		
-		String q3 = " and i_name NOT IN(select name from in_kitchen))";
+		String q3 = " )and i_name NOT IN(select name from in_kitchen))";
 		
 		
 		String temp = "";
