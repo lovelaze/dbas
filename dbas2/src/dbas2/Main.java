@@ -49,12 +49,17 @@ public class Main {
 				}
 			}
 			
-			if(input.equals("remove")){
+			if(input.equals("use")){
 				System.out.print("Food name: ");
 				String name = scanner.nextLine();
 				System.out.print("Quantity: ");
 				float quantity = scanner.nextFloat();
 				db.addToKitchen(name, -quantity);
+			}
+			
+			// delete an item
+			if (input.equals("delete")) {
+				
 			}
 			
 			if(input.equals("possible")){
