@@ -150,6 +150,14 @@ public class FoodDB {
 	 */
 	public boolean addToKitchen(String name, float quantity, String unit) {
 		
+		if (!isIngredient(name)) {
+			try {
+				s.executeUpdate("INSERT INTO ingredient VALUES('"+name+"')");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		if (inKitchen(name)) { // if the food is in kitchen update it
 			try {
 				s.executeUpdate("UPDATE in_kitchen SET quantity=quantity+"+quantity+" WHERE name='"+name+"' AND unit='"+unit+"'");
@@ -171,6 +179,14 @@ public class FoodDB {
 	}
 	
 	public boolean addToKitchen(String name, float quantity) {
+		
+		if (!isIngredient(name)) {
+			try {
+				s.executeUpdate("INSERT INTO ingredient VALUES('"+name+"')");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		if (inKitchen(name)) { // if the food is in kitchen update it
 			try {
@@ -195,6 +211,10 @@ public class FoodDB {
 	public boolean addToKitchen(String name) {
 		
 		try {
+			if (!isIngredient(name)) {
+				s.executeUpdate("INSERT INTO ingredient VALUES('"+name+"')");
+			}
+			
 			s.executeUpdate("INSERT INTO in_kitchen(name) VALUES('"+name+"')");
 			return true;
 		} catch (SQLException e) {

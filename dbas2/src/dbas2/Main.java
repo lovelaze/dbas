@@ -24,7 +24,7 @@ public class Main {
 			}
 			
 			if (input.equals("help")) {
-				System.out.println("list\nadd\nremove\npossible\ndefinitely\nshopping\nperform\nrecipes");
+				System.out.println("list\nadd\nremove\npossible\ndefinitely\nshopping\nperform\nrecipes\ndelete");
 			}
 			
 			if(input.equals("list")){
@@ -37,7 +37,8 @@ public class Main {
 				System.out.print("Quantity: ");
 				float quantity = scanner.nextFloat();
 				System.out.print("Unit: ");
-				String unit = scanner.nextLine();
+				String unit = scanner.next();
+				
 				if(quantity == 0f){
 					db.addToKitchen(name);
 				}
@@ -59,7 +60,9 @@ public class Main {
 			
 			// delete an item
 			if (input.equals("delete")) {
-				
+				System.out.println("Food name: ");
+				String name = scanner.nextLine();
+				db.removeFromKitchen(name);
 			}
 			
 			if(input.equals("possible")){
